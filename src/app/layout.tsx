@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ChildrenType } from "@/types";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,15 +14,11 @@ export const metadata: Metadata = {
   title: "Event Horizon",
   description: "Ticket Booking Services",
   icons: {
-    icon: "",
+    icon: "/assets/Icon.svg",
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: ChildrenType) {
   return (
     <ClerkProvider>
       <html lang="en">
