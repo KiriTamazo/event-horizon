@@ -1,18 +1,20 @@
 "use server";
 
 import { CreateUserParams, UpdateUserParams } from "@/types";
-import User from "../database/models/user.model";
-import { handleError } from "../utils";
+import { handleError, parseResponse } from "../utils";
 import { connectToDatabase } from "../database";
-import Event from '@/lib/database/models/event.model'
+import { revalidatePath } from "next/cache";
+import User from "@/lib/database/models/user.model";
+import Event from "@/lib/database/models/event.model";
+import Order from "@/lib/database/models/order.model";
 
 export const createUser = async (user: CreateUserParams) => {
   try {
     await connectToDatabase();
 
     const newUser = await User.create(user);
-
-    return JSON.parse(JSON.stringify(newUser));
+    console.log(newUser);
+    return parseResponse(newUser);
   } catch (error) {
     handleError(error);
   }
@@ -24,7 +26,7 @@ export async function getUserById(userId: string) {
     const user = await User.findById(userId);
 
     if (!user) throw new Error("User not found");
-    return JSON.parse(JSON.stringify(user));
+    return parseResponse(user);
   } catch (error) {
     handleError(error);
   }
@@ -39,7 +41,7 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
     });
 
     if (!updatedUser) throw new Error("User update failed");
-    return JSON.parse(JSON.stringify(updatedUser));
+    return parseResponse(updatedUser);
   } catch (error) {
     handleError(error);
   }
@@ -75,7 +77,7 @@ export async function deleteUser(clerkId: string) {
     const deletedUser = await User.findByIdAndDelete(userToDelete._id);
     revalidatePath("/");
 
-    return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
+    return deletedUser ? parseResponse(deletedUser) : null;
   } catch (error) {
     handleError(error);
   }
