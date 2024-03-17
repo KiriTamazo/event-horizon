@@ -1,7 +1,7 @@
 import { Document, Schema, models, model } from "mongoose";
 
 export interface ICategory extends Document {
-  id: string;
+  _id: string;
   name: string;
 }
 const CategorySchema = new Schema({

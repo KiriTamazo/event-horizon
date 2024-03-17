@@ -8,7 +8,7 @@ import User from "@/lib/database/models/user.model";
 import Event from "@/lib/database/models/event.model";
 import Order from "@/lib/database/models/order.model";
 
-export const createUser = async (user: CreateUserParams) => {
+export async function createUser(user: CreateUserParams) {
   try {
     await connectToDatabase();
 
@@ -18,7 +18,7 @@ export const createUser = async (user: CreateUserParams) => {
   } catch (error) {
     handleError(error);
   }
-};
+}
 export async function getUserById(userId: string) {
   try {
     await connectToDatabase();
@@ -35,10 +35,10 @@ export async function getUserById(userId: string) {
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
   try {
     await connectToDatabase();
-
     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
       new: true,
     });
+    console.log(updatedUser);
 
     if (!updatedUser) throw new Error("User update failed");
     return parseResponse(updatedUser);
