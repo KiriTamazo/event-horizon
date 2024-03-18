@@ -1,17 +1,17 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
-// const idPlugin = (schema:Schema) => {
-//     schema.set('toJSON', {
-//         transform: function (doc, ret) {
-//             ret.id = ret._id;
-//             delete ret._id;
-//             delete ret.__v; // Optionally remove the version key if needed
-//         }
-//     });
-// };
+const idPlugin = (schema: Schema) => {
+  schema.set("toJSON", {
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.__v; // Optionally remove the version key if needed
+    },
+  });
+};
 
-// // Apply the plugin globally to all schemas
-// mongoose.plugin(idPlugin);
+// Apply the plugin globally to all schemas
+mongoose.plugin(idPlugin);
 
 const UserSchema = new Schema(
   {
