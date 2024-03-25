@@ -170,7 +170,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                         onChange={(date) => field?.onChange(date)}
                         showTimeSelect
                         timeInputLabel="Time:"
-                        dateFormat="MM/dd/YYYY h:mm aa"
+                        dateFormat="MM/dd/yyyy h:mm aa"
                         wrapperClassName="datePicker"
                       />
                     </div>
@@ -201,7 +201,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                         onChange={(date) => field?.onChange(date)}
                         showTimeSelect
                         timeInputLabel="Time:"
-                        dateFormat="MM/dd/YYYY h:mm aa"
+                        dateFormat="MM/dd/yyyy h:mm aa"
                         wrapperClassName="datePicker"
                       />
                     </div>
@@ -250,6 +250,8 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                                   Free Ticket
                                 </Label>
                                 <Checkbox
+                                  onCheckedChange={field?.onChange}
+                                  checked={field?.value}
                                   id="isFree"
                                   className="mr-2 h-5 w-5 border-2 border-primary-500"
                                 />
