@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ChildrenType } from "@/types";
 import NextTopLoader from "nextjs-toploader";
+import "@uploadthing/react/styles.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
