@@ -55,19 +55,18 @@ const DropDown = ({ value, onChangeHanlder }: DropDownProps) => {
       }
     })();
   }, []);
-  console.log(categories);
   return (
     <Select onValueChange={onChangeHanlder} defaultValue={value}>
       <SelectTrigger className="select-field">
         <SelectValue placeholder="Category" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="">
         {categories?.length > 0 &&
           categories?.map((category) => (
             <SelectItem
               className="select-item p-regular-14"
-              key={category?._id}
-              value={category?._id}
+              key={category?.id}
+              value={category?.id}
             >
               {category?.name}
             </SelectItem>
