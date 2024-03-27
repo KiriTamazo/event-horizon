@@ -26,6 +26,7 @@ import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useRouter } from "next/navigation";
+import { createEvent } from "@/lib/actions/event.action";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -55,15 +56,15 @@ const EventForm = ({ userId, type }: EventFormProps) => {
     }
     if (type === "Create") {
       try {
-        // const newEvent = await createEvent({
-        //   event: { ...values, imageUrl: uploadedImageUrl },
-        //   userId,
-        //   path: "/profile",
-        // });
-        // if (newEvent) {
-        //   form.reset();
-        //   router.push(`/events/${newEvent?.id}`);
-        // }
+        const newEvent = await createEvent({
+          event: { ...values, imageUrl: uploadedImageUrl },
+          userId,
+          path: "/profile",
+        });
+        if (newEvent) {
+          form.reset();
+          router.push(`/events/${newEvent?.id}`);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -319,7 +320,14 @@ const EventForm = ({ userId, type }: EventFormProps) => {
             />
           </div>
 
-          <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            size="lg"
+            disabled={form.formState.isSubmitting}
+            className="button col-span-2 w-full"
+          >
+            {form.formState.isSubmitting ? "Submitting..." : `${type} Event `}
+          </Button>
         </form>
       </Form>
     </div>

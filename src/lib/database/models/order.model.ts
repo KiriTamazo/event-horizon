@@ -5,18 +5,18 @@ export interface IOrder extends Document {
   stripeId: string;
   totalAmount: string;
   event: {
-    _id: string;
+    id: string;
     title: string;
   };
   buyer: {
-    _id: string;
+    id: string;
     firstName: string;
     lastName: string;
   };
 }
 
 export type IOrderItem = {
-  _id: string;
+  id: string;
   totalAmount: string;
   createdAt: Date;
   eventTitle: string;
