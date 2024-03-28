@@ -10,8 +10,8 @@ export const connectToDatabase = async () => {
   const opts = {
     dbName: "event_horizon",
     bufferCommands: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
     // bufferMaxEntries: 0,
     // useFindAndModify: true,
     // useCreateIndex: true

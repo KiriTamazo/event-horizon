@@ -42,15 +42,16 @@ const EventForm = ({ userId, type }: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing("imageUploader");
   const router = useRouter();
+
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
     defaultValues: initialValue,
   });
+
   const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
     let uploadedImageUrl = values?.imageUrl;
     if (files.length > 0) {
       const uploadImages = await startUpload(files);
-      console.log(uploadImages, "images");
       if (!uploadImages) return;
       uploadedImageUrl = uploadImages[0]?.url;
     }
@@ -111,7 +112,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
               )}
             />
           </div>
-          <div className="flex flex-col gap-5 md:flex-row">
+          <div className="gap-5 md:flex-row flex flex-col">
             <FormField
               control={form.control}
               name="description"

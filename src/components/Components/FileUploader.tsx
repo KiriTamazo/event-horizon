@@ -1,10 +1,8 @@
 "use client";
 
-import { useCallback, Dispatch, SetStateAction, useState } from "react";
-// import type { FileWithPath } from "@uploadthing/react";
+import { useCallback, Dispatch, SetStateAction } from "react";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { generateClientDropzoneAccept } from "uploadthing/client";
-
 import { Button } from "@/components/ui/button";
 import { convertFileToUrl } from "@/lib/utils";
 import Image from "next/image";
@@ -21,9 +19,8 @@ const FileUploader = ({
   onFieldChange,
   setFiles,
 }: FileUploaderProps) => {
-  const [loading, setLoading] = useState(false);
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles) setLoading(true)
     setFiles(acceptedFiles);
     onFieldChange(convertFileToUrl(acceptedFiles[0]));
   }, []);
@@ -32,7 +29,7 @@ const FileUploader = ({
     onDrop,
     accept: "image/*" ? generateClientDropzoneAccept(["image/*"]) : undefined,
   });
-  console.log(loading, 'loading')
+
   return (
     <div
       {...getRootProps()}
