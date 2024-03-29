@@ -1,8 +1,17 @@
+import Collection from "@/components/Components/Collection";
 import { Button } from "@/components/ui/button";
+import { getAllEvents } from "@/lib/actions/event.action";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const events = await getAllEvents({
+    query: "",
+    category: "",
+    page: 1,
+    limit: 6,
+  });
+  console.log(events, "event");
   return (
     <main>
       <section
@@ -43,6 +52,16 @@ export default function Home() {
         <div className="flex w-full flex-col gap-5 md:flex-row">
           Search Category
         </div>
+
+        <Collection
+          data={events?.data}
+          emptyTitle="No Events found"
+          emptyStateSubText="Come back later"
+          collectionType="All_Events"
+          limit={6}
+          page={1}
+          totalPages={2}
+        />
       </section>
     </main>
   );
