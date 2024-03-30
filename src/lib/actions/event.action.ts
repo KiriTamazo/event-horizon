@@ -1,11 +1,17 @@
 "use server";
 
-import { CreateEventParams, GetAllEventsParams } from "@/types";
+import {
+  CreateEventParams,
+  DeleteEventParams,
+  GetAllEventsParams,
+  UpdateEventParams,
+} from "@/types";
 import { handleError, parseResponse } from "../utils";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Event from "../database/models/event.model";
 import Category from "../database/models/category.model";
+import { revalidatePath } from "next/cache";
 
 const populateEvent = async (query: any) => {
   return query
@@ -69,11 +75,23 @@ export const getAllEvents = async ({
   try {
     await connectToDatabase();
 
-    const conditions = {};
+    const titleCondition = query
+      ? { title: { $regex: query, $options: "i" } }
+      : {};
+    const categoryCondition = category
+      ? await getCategoryByName(category)
+      : null;
+    const conditions = {
+      $and: [
+        titleCondition,
+        categoryCondition ? { category: categoryCondition._id } : {},
+      ],
+    };
+    const skipAmount = (Number(page) - 1) * limit;
 
     const eventsQuery = Event.find(conditions)
       .sort({ createdAt: "desc" })
-      .skip(0)
+      .skip(skipAmount)
       .limit(limit);
 
     const events = await populateEvent(eventsQuery);
@@ -87,3 +105,37 @@ export const getAllEvents = async ({
     handleError(error);
   }
 };
+export const deleteEvent = async ({ eventId, path }: DeleteEventParams) => {
+  try {
+    await connectToDatabase();
+
+    const deletedEvent = await Event.findByIdAndDelete(eventId);
+
+    if (deletedEvent) revalidatePath(path);
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+// UPDATE
+export async function updateEvent({ userId, event, path }: UpdateEventParams) {
+  try {
+    await connectToDatabase();
+
+    const eventToUpdate = await Event.findById(event._id);
+    if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== userId) {
+      throw new Error("Unauthorized or event not found");
+    }
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      event._id,
+      { ...event, category: event.categoryId },
+      { new: true }
+    );
+    revalidatePath(path);
+
+    return JSON.parse(JSON.stringify(updatedEvent));
+  } catch (error) {
+    handleError(error);
+  }
+}
