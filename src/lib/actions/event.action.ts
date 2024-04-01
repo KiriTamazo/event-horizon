@@ -4,6 +4,7 @@ import {
   CreateEventParams,
   DeleteEventParams,
   GetAllEventsParams,
+  GetRelatedEventsByCategoryParams,
   UpdateEventParams,
 } from "@/types";
 import { handleError, parseResponse } from "../utils";
@@ -12,6 +13,10 @@ import User from "../database/models/user.model";
 import Event from "../database/models/event.model";
 import Category from "../database/models/category.model";
 import { revalidatePath } from "next/cache";
+
+const getCategoryByName = async (name: string) => {
+  return Category.findOne({ name: { $regex: name, $options: "i" } });
+};
 
 const populateEvent = async (query: any) => {
   return query
@@ -122,13 +127,13 @@ export async function updateEvent({ userId, event, path }: UpdateEventParams) {
   try {
     await connectToDatabase();
 
-    const eventToUpdate = await Event.findById(event._id);
+    const eventToUpdate = await Event.findById(event.id);
     if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== userId) {
       throw new Error("Unauthorized or event not found");
     }
 
     const updatedEvent = await Event.findByIdAndUpdate(
-      event._id,
+      event.id,
       { ...event, category: event.categoryId },
       { new: true }
     );
