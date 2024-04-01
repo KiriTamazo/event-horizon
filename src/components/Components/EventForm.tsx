@@ -60,6 +60,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
       if (!uploadImages) return;
       uploadedImageUrl = uploadImages[0]?.url;
     }
+    
     if (type === "Create") {
       try {
         const newEvent = await createEvent({
@@ -88,7 +89,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
           path: `/events/${eventId}`,
         });
         if (updatedEvent) {
-          form.reset();
           router.push(`/events/${updatedEvent?.id}`);
         }
       } catch (error) {
