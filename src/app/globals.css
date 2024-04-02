@@ -222,7 +222,7 @@ input[type="number"] {
   }
 
   .button {
-    @apply rounded-full h-[54px] p-regular-16;
+    @apply rounded h-[54px] p-regular-16;
   }
 
   .select-item {

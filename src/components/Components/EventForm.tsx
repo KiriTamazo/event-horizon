@@ -42,11 +42,11 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   const initialValue =
     event && type === "Update"
       ? {
-          ...event,
-          categoryId: event?.category?.id,
-          startDateTime: new Date(event.startDateTime),
-          endDateTime: new Date(event.endDateTime),
-        }
+        ...event,
+        categoryId: event?.category?.id,
+        startDateTime: new Date(event.startDateTime),
+        endDateTime: new Date(event.endDateTime),
+      }
       : eventDefaultValues;
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
@@ -60,7 +60,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
       if (!uploadImages) return;
       uploadedImageUrl = uploadImages[0]?.url;
     }
-    
+
     if (type === "Create") {
       try {
         const newEvent = await createEvent({
@@ -349,7 +349,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
             type="submit"
             size="lg"
             disabled={form.formState.isSubmitting}
-            className="button col-span-2 w-full"
+            className="button col-span-2 w-full rounded"
           >
             {form.formState.isSubmitting ? "Submitting..." : `${type} Event `}
           </Button>
