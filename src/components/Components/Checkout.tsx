@@ -19,8 +19,7 @@ const Checkout = ({ event, userId }: { event: IEvent; userId: string }) => {
       );
     }
   }, []);
-  const onCheckout = async (e) => {
-    e.preventDefault();
+  const onCheckout = async () => {
     const order = {
       eventTitle: event.title,
       eventId: event.id,
