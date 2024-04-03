@@ -1,6 +1,6 @@
 import { IEvent } from "@/lib/database/models/event.model";
 import { loadStripe } from "@stripe/stripe-js";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { checkoutOrder } from "@/lib/actions/order.action";
 import { Button } from "../ui/button";
 
@@ -32,7 +32,7 @@ const Checkout = ({ event, userId }: { event: IEvent; userId: string }) => {
   };
 
   return (
-    <form onSubmit={onCheckout}>
+    <form action={onCheckout} method="post">
       <Button type="submit" role="link" size="lg" className="button sm:w-fit">
         {event.isFree ? "Get Ticket" : "Buy Ticket"}
       </Button>
