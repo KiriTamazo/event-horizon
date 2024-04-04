@@ -2,14 +2,22 @@ import Collection from "@/components/Components/Collection"
 import { Button } from "@/components/ui/button"
 import useUserId from "@/hooks/useUserId"
 import { getEventsByUser } from "@/lib/actions/event.action"
+import { getOrdersByUser } from "@/lib/actions/order.action"
+import { IOrder } from "@/lib/database/models/order.model"
+import { SearchParamProps } from "@/types"
+import { auth } from "@clerk/nextjs"
 import Link from "next/link"
 
-const ProfilePage = async () => {
+const ProfilePage = async ({ searchParams }: SearchParamProps) => {
     const userId = useUserId()
-
+    const orderPage = Number(searchParams?.orderPage) || 1
+    const eventPage = Number(searchParams?.eventPage) || 1
+    console.log(userId, 'user')
+    const orders = await getOrdersByUser({ userId, page: orderPage })
+    const orderedEvents = orders?.data?.map((order: IOrder) => order?.event) || []
     const organizedEvents = await getEventsByUser({
         userId,
-        page: 1
+        page: eventPage
     })
     return (
         <>
@@ -26,16 +34,16 @@ const ProfilePage = async () => {
             </section>
 
             <section className="wrapper my-8">
-                {/* <Collection
+                <Collection
                     data={orderedEvents}
                     emptyTitle="No event tickets purchased yet"
-                    emptyStateSubtext="No worries - plenty of exciting events to explore!"
+                    emptyStateSubText="No worries - plenty of exciting events to explore!"
                     collectionType="My_Tickets"
                     limit={3}
-                    page={ordersPage}
+                    page={orderPage}
                     urlParamName="ordersPage"
                     totalPages={orders?.totalPages}
-                /> */}
+                />
             </section>
 
             {/* Events Organized */}
@@ -57,7 +65,7 @@ const ProfilePage = async () => {
                     emptyStateSubText="Go create some now"
                     collectionType="Events_Organized"
                     limit={3}
-                    page={1}
+                    page={eventPage}
                     urlParamName="eventsPage"
                     totalPages={organizedEvents?.totalPages}
                 />
