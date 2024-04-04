@@ -7,11 +7,12 @@ import {
   GetOrdersByUserParams,
 } from "@/types";
 import { redirect } from "next/navigation";
-import { handleError } from "../utils";
+import { handleError, parseResponse } from "../utils";
 import { connectToDatabase } from "../database";
 import Order from "../database/models/order.model";
 import User from "../database/models/user.model";
 import { ObjectId } from "mongodb";
+import Event from "../database/models/event.model";
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -53,7 +54,7 @@ export const createOrder = async (order: CreateOrderParams) => {
       event: order.eventId,
       buyer: order.buyerId,
     });
-
+    console.log(newOrder);
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     handleError(error);
@@ -115,49 +116,48 @@ export async function getOrdersByEvent({
         },
       },
     ]);
-
-    return JSON.parse(JSON.stringify(orders));
+    return parseResponse(orders);
   } catch (error) {
     handleError(error);
   }
 }
 
 // GET ORDERS BY USER
-// export async function getOrdersByUser({
-//   userId,
-//   limit = 3,
-//   page,
-// }: GetOrdersByUserParams) {
-//   try {
-//     await connectToDatabase();
+export async function getOrdersByUser({
+  userId,
+  limit = 3,
+  page,
+}: GetOrdersByUserParams) {
+  try {
+    await connectToDatabase();
 
-//     const skipAmount = (Number(page) - 1) * limit;
-//     const conditions = { buyer: userId };
+    const skipAmount = (Number(page) - 1) * limit;
+    const conditions = { buyer: userId };
 
-//     const orders = await Order.distinct("event._id")
-//       .find(conditions)
-//       .sort({ createdAt: "desc" })
-//       .skip(skipAmount)
-//       .limit(limit)
-//       .populate({
-//         path: "event",
-//         model: Event,
-//         populate: {
-//           path: "organizer",
-//           model: User,
-//           select: "_id firstName lastName",
-//         },
-//       });
+    const orders = await Order.distinct("event.id")
+      .find(conditions)
+      .sort({ createdAt: "desc" })
+      .skip(skipAmount)
+      .limit(limit)
+      .populate({
+        path: "event",
+        model: Event,
+        populate: {
+          path: "organizer",
+          model: User,
+          select: "id firstName lastName",
+        },
+      });
+    console.log(await Order.find({}), "order", userId);
+    const ordersCount = await Order.distinct("event.id").countDocuments(
+      conditions
+    );
 
-//     const ordersCount = await Order.distinct("event._id").countDocuments(
-//       conditions
-//     );
-
-//     return {
-//       data: JSON.parse(JSON.stringify(orders)),
-//       totalPages: Math.ceil(ordersCount / limit),
-//     };
-//   } catch (error) {
-//     handleError(error);
-//   }
-// }
+    return {
+      data: parseResponse(orders),
+      totalPages: Math.ceil(ordersCount / limit),
+    };
+  } catch (error) {
+    handleError(error);
+  }
+}

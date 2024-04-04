@@ -102,7 +102,6 @@ export const getAllEvents = async ({
 
     const events = await populateEvent(eventsQuery);
     const eventsCount = await Event.countDocuments(conditions);
-
     return {
       data: parseResponse(events),
       totalPages: Math.ceil(eventsCount / limit),

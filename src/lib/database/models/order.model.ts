@@ -17,6 +17,7 @@ export interface IOrder extends Document {
 
 export type IOrderItem = {
   id: string;
+  _id?: string;
   totalAmount: string;
   createdAt: Date;
   eventTitle: string;
