@@ -18,7 +18,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
     page: page,
     limit: 6,
   });
-
+  console.log('home')
   return (
     <main>
       <section

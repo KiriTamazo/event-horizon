@@ -1,9 +1,10 @@
+'use client'
 import { IEvent } from "@/lib/database/models/event.model";
 import { formatDateTime } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import DeleteConfirmation from "./DeleteConfirmation";
-import useUserId from "@/hooks/useUserId";
+import { useAuth } from "@clerk/nextjs";
 
 type CardProps = {
   event: IEvent;
@@ -12,8 +13,7 @@ type CardProps = {
 };
 
 const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
-  const userId = useUserId();
-
+  const { userId } = useAuth();
   const isEventCreator = userId === event?.organizer?.id?.toString();
 
   return (
