@@ -4,11 +4,12 @@ import { SearchParamProps } from '@/types'
 import { IOrderItem } from '@/lib/database/models/order.model'
 import { getOrdersByEvent } from '@/lib/actions/order.action'
 import Search from '@/components/Components/Search'
+import { notFound } from 'next/navigation'
 
 const Orders = async ({ searchParams }: SearchParamProps) => {
     const eventId = (searchParams?.eventId as string) || ''
     const searchText = (searchParams?.query as string) || ''
-
+    if (!eventId && !searchText) return notFound()
     const orders = await getOrdersByEvent({ eventId, searchString: searchText })
     return (
         <>

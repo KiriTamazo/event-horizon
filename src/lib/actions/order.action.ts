@@ -6,7 +6,7 @@ import {
   GetOrdersByEventParams,
   GetOrdersByUserParams,
 } from "@/types";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { handleError, parseResponse } from "../utils";
 import { connectToDatabase } from "../database";
 import Order from "../database/models/order.model";
@@ -68,8 +68,9 @@ export async function getOrdersByEvent({
 }: GetOrdersByEventParams) {
   try {
     await connectToDatabase();
-
-    if (!eventId) throw new Error("Event ID is required");
+    console.log(!eventId);
+    if (!eventId) throw new Error("No event found");
+    
     const eventObjectId = new ObjectId(eventId);
 
     const orders = await Order.aggregate([
