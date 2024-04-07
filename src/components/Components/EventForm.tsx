@@ -18,14 +18,24 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "./FileUploader";
 import { useState } from "react";
 import Image from "next/image";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { useUploadThing } from "@/lib/uploadthing";
 import { createEvent, updateEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next-nprogress-bar";
 import { IEvent } from "@/lib/database/models/event.model";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  LocateIcon,
+  Map,
+} from "lucide-react";
+import { format } from "date-fns";
+import { DayPicker } from "react-day-picker";
+import { TimePicker } from "../ui/time-picker";
+import { Calendar } from "../ui/calendar";
+import { DateTimePicker } from "./DateTimePicker";
+import "react-day-picker/dist/style.css";
 
 type EventFormProps = {
   userId: string;
@@ -42,11 +52,11 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   const initialValue =
     event && type === "Update"
       ? {
-        ...event,
-        categoryId: event?.category?.id,
-        startDateTime: new Date(event.startDateTime),
-        endDateTime: new Date(event.endDateTime),
-      }
+          ...event,
+          categoryId: event?.category?.id,
+          startDateTime: new Date(event.startDateTime),
+          endDateTime: new Date(event.endDateTime),
+        }
       : eventDefaultValues;
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
@@ -179,12 +189,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex-center h-[55px] w-full overflow-hidden rounded bg-gray-50 px-4 py-2">
-                      <Image
-                        src="/assets/icons/location-grey.svg"
-                        alt="calendar"
-                        width={24}
-                        height={24}
-                      />
+                      <Map className="text-gray-500" width={24} height={24} />
                       <Input
                         placeholder="Event location or Online"
                         className="input-field"
@@ -215,14 +220,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                       <p className="ml-3 whitespace-nowrap text-gray-600">
                         Start Date
                       </p>
-                      <DatePicker
-                        selected={field.value}
-                        onChange={(date) => field?.onChange(date)}
-                        showTimeSelect
-                        timeInputLabel="Time:"
-                        dateFormat="MM/dd/yyyy h:mm aa"
-                        wrapperClassName="datePicker"
-                      />
+                      <DateTimePicker />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -246,14 +244,15 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                       <p className="ml-3 whitespace-nowrap text-gray-600">
                         End Date
                       </p>
-                      <DatePicker
+                      {/* <DatePicker
                         selected={field.value}
                         onChange={(date) => field?.onChange(date)}
                         showTimeSelect
                         timeInputLabel="Time:"
                         dateFormat="MM/dd/yyyy h:mm aa"
                         wrapperClassName="datePicker"
-                      />
+                      /> */}
+                      <DateTimePicker />
                     </div>
                   </FormControl>
                   <FormMessage />

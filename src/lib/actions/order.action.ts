@@ -54,7 +54,6 @@ export const createOrder = async (order: CreateOrderParams) => {
       event: order.eventId,
       buyer: order.buyerId,
     });
-    console.log(newOrder);
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     handleError(error);
@@ -68,7 +67,6 @@ export async function getOrdersByEvent({
 }: GetOrdersByEventParams) {
   try {
     await connectToDatabase();
-    console.log(!eventId);
     if (!eventId) throw new Error("No event found");
     
     const eventObjectId = new ObjectId(eventId);
@@ -149,7 +147,6 @@ export async function getOrdersByUser({
           select: "id firstName lastName",
         },
       });
-    console.log(await Order.find({}), "order", userId);
     const ordersCount = await Order.distinct("event.id").countDocuments(
       conditions
     );

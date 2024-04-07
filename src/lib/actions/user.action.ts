@@ -13,7 +13,6 @@ export async function createUser(user: CreateUserParams) {
     await connectToDatabase();
 
     const newUser = await User.create(user);
-    console.log(newUser);
     return parseResponse(newUser);
   } catch (error) {
     handleError(error);
@@ -38,7 +37,6 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
       new: true,
     });
-    console.log(updatedUser);
 
     if (!updatedUser) throw new Error("User update failed");
     return parseResponse(updatedUser);

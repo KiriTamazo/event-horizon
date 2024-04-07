@@ -44,7 +44,6 @@ const CategoryFilter = () => {
     }
     router.push(newUrl, { scroll: false });
   };
-  console.log(categories);
   return (
     <Select onValueChange={(value: string) => onSelectCategory(value)}>
       <SelectTrigger className="select-field">
