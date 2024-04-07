@@ -18,7 +18,7 @@ const Header = () => {
         <Link href="/" className="w-36">
           <Image
             alt="Event Horizon logo"
-            src="/assets/icons/logo-grey.svg"
+            src="/assets/images/logo.svg"
             width={40}
             height={40}
           />
