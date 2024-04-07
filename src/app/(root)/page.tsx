@@ -8,9 +8,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home({ searchParams }: SearchParamProps) {
-  const page = Number(searchParams?.page) || 1
-  const searchText = searchParams?.query as string || ''
-  const category = searchParams?.category as string || ''
+  const page = Number(searchParams?.page) || 1;
+  const searchText = (searchParams?.query as string) || "";
+  const category = (searchParams?.category as string) || "";
 
   const events = await getAllEvents({
     query: searchText,
@@ -18,7 +18,6 @@ export default async function Home({ searchParams }: SearchParamProps) {
     page: page,
     limit: 6,
   });
-  console.log('home')
   return (
     <main>
       <section
@@ -68,7 +67,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
           collectionType="All_Events"
           limit={6}
           page={1}
-          totalPages={2}
+          totalPages={events?.totalPages}
         />
       </section>
     </main>

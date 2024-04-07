@@ -24,18 +24,9 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { createEvent, updateEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next-nprogress-bar";
 import { IEvent } from "@/lib/database/models/event.model";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  LocateIcon,
-  Map,
-} from "lucide-react";
-import { format } from "date-fns";
-import { DayPicker } from "react-day-picker";
-import { TimePicker } from "../ui/time-picker";
-import { Calendar } from "../ui/calendar";
-import { DateTimePicker } from "./DateTimePicker";
-import "react-day-picker/dist/style.css";
+import { Calendar, DollarSign, DollarSignIcon, Link, Map } from "lucide-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type EventFormProps = {
   userId: string;
@@ -210,17 +201,18 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex-center h-[55px] w-full overflow-hidden rounded bg-gray-50 px-4 py-2">
-                      <Image
-                        src="/assets/icons/calendar.svg"
-                        alt="calendar"
-                        width={24}
-                        height={24}
-                        className="filter-gray"
-                      />
+                      <Calendar className="text-gray-500" />
                       <p className="ml-3 whitespace-nowrap text-gray-600">
                         Start Date
                       </p>
-                      <DateTimePicker />
+                      <DatePicker
+                        selected={field.value}
+                        onChange={(date: Date) => field.onChange(date)}
+                        showTimeSelect
+                        timeInputLabel="Time:"
+                        dateFormat="MM/dd/yyyy h:mm aa"
+                        wrapperClassName="datePicker"
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -234,25 +226,19 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex-center h-[55px] w-full overflow-hidden rounded bg-gray-50 px-4 py-2">
-                      <Image
-                        src="/assets/icons/calendar.svg"
-                        alt="calendar"
-                        width={24}
-                        height={24}
-                        className="filter-gray"
-                      />
+                      <Calendar className="text-gray-500" />
+
                       <p className="ml-3 whitespace-nowrap text-gray-600">
                         End Date
                       </p>
-                      {/* <DatePicker
+                      <DatePicker
                         selected={field.value}
                         onChange={(date) => field?.onChange(date)}
                         showTimeSelect
                         timeInputLabel="Time:"
                         dateFormat="MM/dd/yyyy h:mm aa"
                         wrapperClassName="datePicker"
-                      /> */}
-                      <DateTimePicker />
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -269,13 +255,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex-center h-[55px] w-full overflow-hidden rounded bg-gray-50 px-4 py-2">
-                      <Image
-                        src="/assets/icons/dollar.svg"
-                        alt="dollar"
-                        width={24}
-                        height={24}
-                        className="filter-gray"
-                      />
+                      <DollarSign className="text-gray-500" />
 
                       <Input
                         type="number"
@@ -324,13 +304,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 <FormItem className="w-full">
                   <FormControl>
                     <div className="flex-center h-[55px] w-full overflow-hidden rounded bg-gray-50 px-4 py-2">
-                      <Image
-                        src="/assets/icons/link.svg"
-                        alt="calendar"
-                        width={24}
-                        height={24}
-                        className="filter-gray"
-                      />
+                      <Link className="text-gray-500" />
                       <Input
                         placeholder="Url"
                         className="input-field"

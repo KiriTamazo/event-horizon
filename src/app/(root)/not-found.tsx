@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChevronLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 export default function NotFound() {
@@ -33,7 +32,7 @@ export default function NotFound() {
             width={1000}
             height={1000}
             alt=""
-            src="assets/icons/notfound.svg"
+            src="/assets/icons/notfound.svg"
           />
         </div>
       </div>
