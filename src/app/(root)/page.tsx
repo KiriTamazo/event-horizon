@@ -1,6 +1,11 @@
 import CategoryFilter from "@/components/Components/CategoryFilter";
 import Collection from "@/components/Components/Collection";
 import Search from "@/components/Components/Search";
+import {
+  AvatarSkeleton,
+  ImageSkeleton,
+  Skeleton,
+} from "@/components/Components/Skeleton";
 import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.action";
 import { SearchParamProps } from "@/types";
@@ -59,7 +64,6 @@ export default async function Home({ searchParams }: SearchParamProps) {
           <Search />
           <CategoryFilter />
         </div>
-
         <Collection
           data={events?.data}
           emptyTitle="No Events found"
