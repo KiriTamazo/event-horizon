@@ -11,6 +11,7 @@ import { getAllEvents } from "@/lib/actions/event.action";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+// import HeroSection from "../../../assets/images/booking.svg";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
@@ -43,12 +44,13 @@ export default async function Home({ searchParams }: SearchParamProps) {
               <Link href="#events">Explore Now</Link>
             </Button>
           </div>
+          {/* <HeroSection /> */}
           <Image
-            src="/assets/images/hero.png"
+            src="/assets/images/booking.svg"
             alt="hero"
-            width={1000}
-            height={1000}
-            className="max-h-[70vh] object-contain object-center 2xl:max-h-[50vh]"
+            width={800}
+            height={800}
+            className="max-h-[70vh]  rounded object-contain object-center 2xl:max-h-[50vh]"
           />
         </div>
       </section>
