@@ -1,18 +1,25 @@
 import CheckoutButton from "@/components/Components/CheckoutButton";
 import Collection from "@/components/Components/Collection";
-import { getEventById, getRelatedEventsByCategory } from "@/lib/actions/event.action";
+import {
+  getEventById,
+  getRelatedEventsByCategory,
+} from "@/lib/actions/event.action";
 import { formatDateTime } from "@/lib/utils";
 import { SearchParamProps } from "@/types";
+import { Calendar, Map } from "lucide-react";
 import Image from "next/image";
 
-const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) => {
+const EventDetails = async ({
+  params: { id },
+  searchParams,
+}: SearchParamProps) => {
   const event = await getEventById(id);
 
   const relatedEvent = await getRelatedEventsByCategory({
     categoryId: event?.category?.id,
     eventId: event?.id,
-    page: searchParams.page as string
-  })
+    page: searchParams.page as string,
+  });
   return (
     <>
       <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
@@ -51,19 +58,14 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
             <CheckoutButton event={event} />
 
             <div className="flex flex-col gap-5">
-              <div className="flex gap-2 md:gap-3">
-                <Image
-                  src="/assets/icons/calendar.svg"
-                  alt="calendar"
-                  width={32}
-                  height={32}
-                />
+              <div className="flex gap-2 items-center md:gap-3">
+                <Calendar className="text-gray-500 w-6 h-6" />
                 <div className="p-medium-16 lg:p-regular-20 flex flex-wrap items-center">
                   <p>
                     {formatDateTime(event.startDateTime).dateOnly} -{" "}
                     {formatDateTime(event.startDateTime).timeOnly}
                   </p>
-                  <p>
+                  <p className="ml-4 md:ml-0">
                     {formatDateTime(event.endDateTime).dateOnly} -{" "}
                     {formatDateTime(event.endDateTime).timeOnly}
                   </p>
@@ -71,12 +73,7 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
               </div>
 
               <div className="p-regular-20 flex items-center gap-3">
-                <Image
-                  src="/assets/icons/location.svg"
-                  alt="location"
-                  width={32}
-                  height={32}
-                />
+                <Map className="text-gray-500 w-5 h-5" />
                 <p className="p-medium-16 lg:p-regular-20">{event.location}</p>
               </div>
             </div>
@@ -98,9 +95,9 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
 
         <Collection
           data={relatedEvent?.data}
-          emptyTitle='No Events found'
+          emptyTitle="No Events found"
           emptyStateSubText="Come back later"
-          collectionType='All_Events'
+          collectionType="All_Events"
           limit={6}
           page={1}
           totalPages={2}

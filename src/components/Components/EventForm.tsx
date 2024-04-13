@@ -17,14 +17,13 @@ import DropDown from "./DropDown";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "./FileUploader";
 import { useState } from "react";
-import Image from "next/image";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { useUploadThing } from "@/lib/uploadthing";
 import { createEvent, updateEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next-nprogress-bar";
 import { IEvent } from "@/lib/database/models/event.model";
-import { Calendar, DollarSign, DollarSignIcon, Link, Map } from "lucide-react";
+import { Calendar, DollarSign, Link, Map } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 

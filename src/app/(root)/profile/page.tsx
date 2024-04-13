@@ -1,16 +1,10 @@
 import Collection from "@/components/Components/Collection";
-import {
-  EventSkeletonCard,
-  ImageSkeleton,
-  Skeleton,
-} from "@/components/Components/Skeleton";
 import { Button } from "@/components/ui/button";
 import useUserId from "@/hooks/useUserId";
 import { getEventsByUser } from "@/lib/actions/event.action";
 import { getOrdersByUser } from "@/lib/actions/order.action";
 import { IOrder } from "@/lib/database/models/order.model";
 import { SearchParamProps } from "@/types";
-import { auth } from "@clerk/nextjs";
 import Link from "next/link";
 
 const ProfilePage = async ({ searchParams }: SearchParamProps) => {
